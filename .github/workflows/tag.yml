@@ -18,25 +18,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 50
+          fetch-depth: 10
           fetch-tags: true
-      - name: Check out action-tag repository
-        uses: actions/checkout@v4
-        with:
-          repository: martoc/action-tag
-          ref: main
-          token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
-          path: ./.github/actions/action-tag
       - name: Tag
-        uses: ./.github/actions/action-tag
-        env:
-          PERSONAL_GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
-      - name: Check out action-release repository
-        uses: actions/checkout@v4
-        with:
-          repository: martoc/action-release
-          ref: main
-          token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
-          path: ./.github/actions/action-release
+        uses: martoc/action-tag@main
       - name: Release on GitHub
-        uses: ./.github/actions/action-release
+        uses: martoc/action-release@main
