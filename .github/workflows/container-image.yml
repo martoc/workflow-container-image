@@ -18,6 +18,7 @@ jobs:
         run: |
           DOCKERFILE="Dockerfile"
           NAME="${{ github.repository }}"
+          NAME="${NAME#*/}"
           NAME="${NAME#docker-}"
           NAMESPACE="${{ github.repository_owner }}"
           DESCRIPTION="${{ github.event.head_commit.message }}"
