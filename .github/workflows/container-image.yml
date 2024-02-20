@@ -24,8 +24,8 @@ jobs:
       - name: Container Build
         run: |
           DOCKERFILE="Dockerfile"
-          NAME="my-custom-image-action"
-          NAMESPACE="martoc"
+          NAME="${{ github.repository }}"
+          NAMESPACE="${{ github.repository_owner }}"
           DESCRIPTION="${{ github.event.head_commit.message }}"
           BUILD_ARGS="--build-arg TAG_VERSION=${TAG_VERSION} --build-arg BUILD_SHA=${GITHUB_SHA}"
           label_args=(
