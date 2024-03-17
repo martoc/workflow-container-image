@@ -19,6 +19,7 @@ jobs:
           NAME="${NAME#docker-}"
           PLATFORMS="linux/arm64,linux/amd64"
           DOCKERFILE="Dockerfile"
+          WORKDIR="."
           NAMESPACE="${{ github.repository_owner }}"
           DESCRIPTION="${{ github.event.head_commit.message }}"
           BUILD_ARGS="--build-arg TAG_VERSION=${TAG_VERSION} --build-arg BUILD_SHA=${GITHUB_SHA}"
@@ -46,6 +47,6 @@ jobs:
           )
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker buildx create --use
-          docker buildx build --push "${LABEL_ARGS[@]}" ${BUILD_ARGS} --no-cache --progress plain --file $DOCKERFILE --platform $PLATFORMS --tag ${NAMESPACE}/${NAME}:${TAG_VERSION} --tag ${NAMESPACE}/${NAME}:latest .
+          docker buildx build --push "${LABEL_ARGS[@]}" ${BUILD_ARGS} --no-cache --progress plain --file ${DOCKERFILE} --platform $PLATFORMS --tag ${NAMESPACE}/${NAME}:${TAG_VERSION} --tag ${NAMESPACE}/${NAME}:latest $WORKDIR
       - name: Release on GitHub
         uses: martoc/action-release@main
