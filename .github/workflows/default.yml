@@ -29,7 +29,7 @@ jobs:
             --label "org.label-schema.vcs-ref=${GITHUB_SHA}"
             --label "org.label-schema.build-date=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
             --label "org.label-schema.version=${TAG_VERSION}"
-            --label "org.label-schema.description=$DESCRIPTION"
+            --label "org.label-schema.description=${DESCRIPTION}"
             --label "org.label-schema.usage=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${TAG_NAME}/docs/index.md"
             --label "org.label-schema.url=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
             --label "org.opencontainers.image.ref.name=${NAME}"
@@ -42,7 +42,7 @@ jobs:
             --label "org.opencontainers.image.documentation=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${TAG_NAME}/docs/index.md"
             --label "org.opencontainers.image.description=${DESCRIPTION}"
             --label "org.opencontainers.image.authors=${GITHUB_ACTOR}"
-            --label "org.opencontainers.image.licenses=“Copyright (c) $(date -u +'%Y') martoc"
+            --label "org.opencontainers.image.licenses=“${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${TAG_NAME}/LICENSE"
           )
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker buildx create --use
