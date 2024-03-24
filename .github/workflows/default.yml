@@ -13,9 +13,9 @@ jobs:
       - name: Tag
         uses: martoc/action-tag@v0
       - name: Container Build
-        uses: martoc/action-container-build@main
+        uses: martoc/action-container-build@v0
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - name: Release on GitHub
-        uses: martoc/action-release@main
+        uses: martoc/action-release@v0
