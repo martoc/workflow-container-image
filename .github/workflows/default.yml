@@ -19,3 +19,4 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - name: Release on GitHub
         uses: martoc/action-release@v0
+        if: ${{ github.event_name != 'pull_request' }}
