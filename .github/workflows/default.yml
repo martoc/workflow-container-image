@@ -1,19 +1,5 @@
 on:
   workflow_call:
-    inputs:
-      registry:
-        type: string
-        required: true
-        default: docker.io
-      region:
-        type: string
-        required: false
-      repository_name:
-        type: string
-        required: false
-      gcp_project_id:
-        type: string
-        required: false
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -21,7 +7,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 50
+          fetch-depth: 10
           fetch-tags: true
       - name: Tag
         uses: martoc/action-tag@v0
@@ -30,20 +16,6 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        if: ${{ inputs.registry == 'docker.io' }}
-      - uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ env.SERVICE_ACCOUNT }}
-        if: ${{ inputs.registry == 'gcp' }}
-      - name: Container Build
-        uses: martoc/action-container-build@v0
-        with:
-          registry: gcp
-          region: ${{ inputs.region }}
-          repository_name: ${{ inputs.repository_name }}
-          gcp_project_id: ${{ inputs.gcp_project_id }}
-        if: ${{ inputs.registry == 'gcp' }}
       - name: Release on GitHub
         uses: martoc/action-release@v0
         if: ${{ github.event_name != 'pull_request' }}
