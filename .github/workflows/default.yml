@@ -14,12 +14,6 @@ on:
       gcp_project_id:
         type: string
         required: false
-      workload_identity_provider:
-        type: string
-        required: false
-      service_account:
-        type: string
-        required: false
 jobs:
   build:
     runs-on: ubuntu-24.04
