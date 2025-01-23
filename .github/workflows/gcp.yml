@@ -16,6 +16,10 @@ on:
       service_account:
         type: string
         required: true
+      platforms:
+        type: string
+        required: false
+        default: linux/arm64,linux/amd64
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -35,6 +39,7 @@ jobs:
         uses: martoc/action-container-build@v0
         with:
           registry: gcp
+          platforms: ${{ inputs.platforms }}
           region: ${{ inputs.region }}
           repository_name: ${{ inputs.repository_name }}
           gcp_project_id: ${{ inputs.gcp_project_id }}
