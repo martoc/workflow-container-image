@@ -1,5 +1,10 @@
 on:
   workflow_call:
+    inputs:
+      lfs:
+        type: boolean
+        required: false
+        default: false
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -9,6 +14,7 @@ jobs:
         with:
           fetch-depth: 10
           fetch-tags: true
+          lfs: ${{ inputs.lfs }}
       - name: Tag
         uses: martoc/action-tag@v0
       - name: Container Build
