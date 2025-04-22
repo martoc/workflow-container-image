@@ -26,9 +26,9 @@ on:
         default: false
     secrets:
       go_github_username:
-        required: true
+        required: false
       go_github_token:
-        required: true
+        required: false
 jobs:
   build:
     runs-on: ubuntu-24.04
