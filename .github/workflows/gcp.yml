@@ -24,6 +24,11 @@ on:
         type: boolean
         required: false
         default: false
+    secrets:
+      go_github_username:
+        required: true
+      go_github_token:
+        required: true
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -48,6 +53,7 @@ jobs:
           region: ${{ inputs.region }}
           repository_name: ${{ inputs.repository_name }}
           gcp_project_id: ${{ inputs.gcp_project_id }}
+          build_args: --build-arg GO_GITHUB_USERNAME=${{ secrets.go_github_username }} --build-arg GO_GITHUB_TOKEN=${{ secrets.go_github_token }}
       - name: Release on GitHub
         uses: martoc/action-release@v0
         if: ${{ github.event_name != 'pull_request' }}
