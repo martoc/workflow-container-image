@@ -5,6 +5,10 @@ on:
         type: boolean
         required: false
         default: false
+      platforms:
+        type: string
+        required: false
+        default: linux/arm64,linux/amd64
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -19,6 +23,8 @@ jobs:
         uses: martoc/action-tag@v0
       - name: Container Build
         uses: martoc/action-container-build@v0
+        with:
+          platforms: ${{ inputs.platforms }}
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
