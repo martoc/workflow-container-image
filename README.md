@@ -1,4 +1,3 @@
-[![checks](https://github.com/martoc/workflow-container-image/actions/workflows/tag.yml/badge.svg?branch=main&event=push)](https://github.com/martoc/workflow-container-image/actions/workflows/tag.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # workflow-container-image
