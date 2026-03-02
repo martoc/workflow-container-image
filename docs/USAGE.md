@@ -41,6 +41,51 @@ jobs:
     secrets: inherit
 ```
 
+### aws.yml
+
+Builds and pushes container images to AWS Elastic Container Registry (ECR).
+
+**Inputs:**
+
+| Input | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `region` | string | Yes | - | AWS region (e.g., `us-east-2`, `eu-west-1`) |
+| `repository_name` | string | Yes | - | ECR repository name |
+| `aws_account_id` | string | Yes | - | AWS Account ID (12-digit) |
+| `role_to_assume` | string | Yes | - | ARN of the IAM role to assume via OIDC |
+| `platforms` | string | No | `linux/arm64,linux/amd64` | Target platforms for build |
+| `lfs` | boolean | No | `false` | Enable Git LFS for checkout |
+
+**Optional Secrets:**
+
+- `go_github_username` - GitHub username for Go private modules
+- `go_github_token` - GitHub token for Go private modules
+
+**Example:**
+
+```yaml
+name: Build Container
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    permissions:
+      contents: write
+      id-token: write
+    uses: martoc/workflow-container-image/.github/workflows/aws.yml@v0
+    with:
+      region: us-east-2
+      repository_name: my-repo
+      aws_account_id: "123456789012"
+      role_to_assume: arn:aws:iam::123456789012:role/github-actions
+    secrets: inherit
+```
+
 ### gcp.yml
 
 Builds and pushes container images to GCP Artifact Registry.

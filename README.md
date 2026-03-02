@@ -2,12 +2,12 @@
 
 # workflow-container-image
 
-Reusable GitHub Actions workflows for building and publishing container images to Docker Hub and GCP Artifact Registry.
+Reusable GitHub Actions workflows for building and publishing container images to Docker Hub, AWS ECR, and GCP Artifact Registry.
 
 ## Features
 
 - Multi-platform builds (linux/arm64, linux/amd64)
-- Docker Hub and GCP Artifact Registry support
+- Docker Hub, AWS ECR, and GCP Artifact Registry support
 - Automatic semantic versioning with `action-tag`
 - GitHub release creation
 - Git LFS support
@@ -22,6 +22,23 @@ jobs:
     permissions:
       contents: write
     uses: martoc/workflow-container-image/.github/workflows/default.yml@v0
+    secrets: inherit
+```
+
+### AWS ECR
+
+```yaml
+jobs:
+  build:
+    permissions:
+      contents: write
+      id-token: write
+    uses: martoc/workflow-container-image/.github/workflows/aws.yml@v0
+    with:
+      region: us-east-2
+      repository_name: my-repo
+      aws_account_id: "123456789012"
+      role_to_assume: arn:aws:iam::123456789012:role/github-actions
     secrets: inherit
 ```
 
@@ -53,6 +70,7 @@ jobs:
 | Workflow | Registry | Description |
 |----------|----------|-------------|
 | `default.yml` | Docker Hub | Build and push to Docker Hub |
+| `aws.yml` | AWS ECR | Build and push to AWS ECR |
 | `gcp.yml` | GCP Artifact Registry | Build and push to GCP |
 
 ## Licence
