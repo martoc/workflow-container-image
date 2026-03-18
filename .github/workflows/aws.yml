@@ -45,7 +45,7 @@ jobs:
           role-session-name: github-actions
           aws-region: ${{ inputs.region }}
       - name: Container Build
-        uses: martoc/action-container-build@v0
+        uses: martoc/action-container-build@b7a49809e1a2565eb0025009eec2f6fe874e8e57
         with:
           registry: aws
           platforms: ${{ inputs.platforms }}
