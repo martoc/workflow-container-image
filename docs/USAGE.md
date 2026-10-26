@@ -133,6 +133,43 @@ jobs:
     secrets: inherit
 ```
 
+### github.yml
+
+Builds and pushes container images to the GitHub Container Registry, as
+`ghcr.io/<repository_name>/<name>:<version>` and `:latest`, lower-cased.
+
+**Inputs:**
+
+| Input | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `repository_name` | string | No | the repository owner | Namespace under `ghcr.io`, e.g. `my-org` or `my-org/images` |
+| `name` | string | No | the repository name | Image name |
+| `platforms` | string | No | `linux/arm64,linux/amd64` | Target platforms for build |
+| `lfs` | boolean | No | `false` | Enable Git LFS for checkout |
+
+**Secrets:** none. The workflow logs in with the workflow's `GITHUB_TOKEN`, so the caller grants
+`packages: write`. A package created from a private repository is private, and the image's
+`org.opencontainers.image.source` label links it to the repository.
+
+**Example:**
+
+```yaml
+name: Build Container
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    permissions:
+      contents: write
+      packages: write
+    uses: martoc/workflow-container-image/.github/workflows/github.yml@v0
+```
+
 ## What Each Workflow Does
 
 1. **Checkout** - Clones the repository with tags

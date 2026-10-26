@@ -1,0 +1,43 @@
+on:
+  workflow_call:
+    inputs:
+      repository_name:
+        type: string
+        required: false
+        default: ""
+      lfs:
+        type: boolean
+        required: false
+        default: false
+      platforms:
+        type: string
+        required: false
+        default: linux/arm64,linux/amd64
+      name:
+        type: string
+        required: false
+        default: ""
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 10
+          fetch-tags: true
+          lfs: ${{ inputs.lfs }}
+      - name: Tag
+        uses: martoc/action-tag@v0
+      # Logs in to ghcr.io with the workflow's GITHUB_TOKEN; the caller grants
+      # packages: write.
+      - name: Container Build
+        uses: martoc/action-container-build@v0
+        with:
+          registry: github
+          repository_name: ${{ inputs.repository_name }}
+          platforms: ${{ inputs.platforms }}
+          name: ${{ inputs.name }}
+      - name: Release on GitHub
+        uses: martoc/action-release@v0
+        if: ${{ github.event_name != 'pull_request' }}
